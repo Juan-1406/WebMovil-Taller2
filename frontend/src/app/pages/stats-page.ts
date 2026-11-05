@@ -2,10 +2,11 @@ import { Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProblemsService } from '../services/problems.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-stats-page',
-  imports: [MatCardModule, MatProgressSpinnerModule],
+  imports: [MatCardModule, MatProgressSpinnerModule, MatProgressBarModule],
   template: `
     <div class="page">
       <h1>Estadísticas</h1>
@@ -26,6 +27,31 @@ import { ProblemsService } from '../services/problems.service';
           <mat-card><mat-card-content><h2>{{ intentando() }}</h2>Intentando</mat-card-content></mat-card>
           <mat-card><mat-card-content><h2>{{ pendientes() }}</h2>Pendientes</mat-card-content></mat-card>
         </div>
+
+        <mat-card class="progress-card">
+          <mat-card-content>
+            <div class="progress-heading">
+              <div>
+                <h2 class="progress-tittle">Progreso de resolución</h2>
+                <p class="progress-description">Porcentaje de problemas que has resuelto</p>
+              </div>
+
+              <span class="progress-percent">{{porcentajeResueltos()}}%</span>
+            </div>
+
+            <mat-progress-bar mode="determinate" [value] = "porcentajeResueltos()" 
+            aria-label="Porcentaje de problemas resueltos"></mat-progress-bar>
+
+            <p class="progress-caption">
+              @if (total() === 0) {
+                Aún no tienes problemas registrados.
+              } @else {
+                {{resueltos()}} de {{total()}}
+                problemas resueltos  
+              }
+            </p>
+          </mat-card-content>
+        </mat-card>
       }
     </div>
   `,
@@ -55,6 +81,26 @@ import { ProblemsService } from '../services/problems.service';
 
     /* Telefonos */
     @media (max-width: 520px) {.page {padding: 16px;} .cards {grid-template-columns: 1fr;}}
+
+    .progress-card {margin-top: 20px; border-radius: 16px;
+    1px solid var(--mat-sys-outline-variant); background: var(--mat-sys-surface-container-low);
+    box-shadow: none;}
+
+    /* Encabezado del indicador */
+    .progress-heading {display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px;}
+    .progress-card .progress-title {margin: 0 0 6px; font-size: 18px; font-weight: 600; line-height: 1.4; color: var(--mat-sys-on-surface);}
+    .progress-description {margin: 0; font-size: 14px; color: var(--mat-sys-on-surface-variant);}
+
+    /* Porcentaje destacado */
+    .progress-percent {font-size: 30px; font-weight: 700; color: var(--mat-sys-primary); white-space: nowrap;}
+
+    /* Texto inferior */
+    .progress-caption {margin: 16px 0 0; font-size: 13px; color: var(--mat-sys-on-surface-variant);}
+
+    /* Adaptación a pantallas pequeñas */
+    @media (max-width: 520px) {.progress-heading {align-items: flex-start; gap: 12px;}
+      .progress-percent {font-size: 24px;} .progress-card mat-card-content {padding: 18px;}
+    }
   `,
 })
 
@@ -67,4 +113,13 @@ export class StatsPage {
   resueltos = computed(() => this.problems.value()?.filter((p) => p.estado === 'Resuelto').length ?? 0);
   pendientes = computed(() => this.problems.value()?.filter((p) => p.estado === 'Pendiente').length ?? 0);
   intentando = computed(() => this.problems.value()?.filter((p) => p.estado === 'Intentando').length ?? 0);
+
+  porcentajeResueltos = computed(() => {
+    const total = this.total();
+
+    if (total === 0) {
+      return 0;
+    }
+    return Math.round((this.resueltos()/ total) * 100);
+  });
 }
