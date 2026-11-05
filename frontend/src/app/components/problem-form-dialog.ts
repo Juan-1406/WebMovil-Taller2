@@ -52,6 +52,14 @@ import { ESTADOS, Estado, PLATAFORMAS, Problem, ProblemInput } from '../models/p
         </mat-form-field>
 
         <mat-form-field appearance="outline">
+          <mat-label>Tag (tema)</mat-label>
+          <input matInput formControlName="tag" placeholder="Ej: DP, Grafos, Greedy" />
+          @if (form.controls.tag.hasError('maxlength')) {
+            <mat-error>Máximo 50 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
           <mat-label>URL</mat-label>
           <input matInput formControlName="url" placeholder="https://..." />
           @if (form.controls.url.invalid) {
@@ -82,6 +90,7 @@ export class ProblemFormDialog {
     plataforma: [this.data?.plataforma ?? 'Codeforces', Validators.required],
     dificultad: [this.data?.dificultad ?? (null as number | null), [Validators.min(0), Validators.max(4000)]],
     estado: [(this.data?.estado ?? 'Pendiente') as Estado, Validators.required],
+    tag: [this.data?.tag ?? '', [Validators.maxLength(50)]],
     url: [this.data?.url ?? '', Validators.pattern(/^(https?:\/\/.+)?$/)],
   });
 
@@ -91,7 +100,12 @@ export class ProblemFormDialog {
       return;
     }
     const v = this.form.getRawValue();
-    const result: ProblemInput = { ...v, url: v.url || null };
+
+    const result: ProblemInput = {
+      ...v,
+      tag: v.tag.trim() || null,
+      url: v.url.trim() || null,
+    };
     this.ref.close(result);
   }
 }

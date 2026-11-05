@@ -7,14 +7,19 @@ import { Problem, ProblemInput } from '../models/problem';
 export class ProblemsService {
   private http = inject(HttpClient);
 
-  listResource(filters: () => { plataforma: string; estado: string }) {
+  listResource(filters: () => { plataforma: string; estado: string; tag?: string }) {
     return httpResource<Problem[]>(() => {
       const f = filters();
       const params: Record<string, string> = {};
       if (f.plataforma) params['plataforma'] = f.plataforma;
       if (f.estado) params['estado'] = f.estado;
+      if (f.tag) params['tag'] = f.tag;
       return { url: `${API_URL}/problems`, params };
     });
+  }
+
+  tagsResource() {
+    return httpResource<string[]>(() => `${API_URL}/problems/tags`);
   }
 
   create(data: ProblemInput) {

@@ -43,6 +43,14 @@ import { ConfirmDialog } from '../components/confirm-dialog';
             @for (e of estados; track e) { <mat-option [value]="e">{{ e }}</mat-option> }
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tag</mat-label>
+          <mat-select [value]="tag()" (selectionChange)="tag.set($event.value)">
+            <mat-option value="">Todos</mat-option>
+            @for (t of tags.value() ?? []; track t) { <mat-option [value]="t">{{ t }}</mat-option> }
+          </mat-select>
+        </mat-form-field>
       </div>
 
       @if (problems.isLoading()) {
@@ -68,6 +76,10 @@ import { ConfirmDialog } from '../components/confirm-dialog';
             <ng-container matColumnDef="dificultad">
               <th mat-header-cell *matHeaderCellDef>Dificultad</th>
               <td mat-cell *matCellDef="let p">{{ p.dificultad ?? '-' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="tag">
+              <th mat-header-cell *matHeaderCellDef>Tag</th>
+              <td mat-cell *matCellDef="let p">{{ p.tag ?? '-' }}</td>
             </ng-container>
             <ng-container matColumnDef="estado">
               <th mat-header-cell *matHeaderCellDef>Estado</th>
@@ -104,14 +116,19 @@ export class ProblemsPage {
 
   plataforma = signal('');
   estado = signal('');
+  tag = signal('');
+
   plataformas = PLATAFORMAS;
   estados = ESTADOS;
-  columns = ['titulo', 'plataforma', 'dificultad', 'estado', 'acciones'];
+  columns = ['titulo', 'plataforma', 'dificultad', 'tag', 'estado', 'acciones'];
+
 
   problems = this.service.listResource(() => ({
     plataforma: this.plataforma(),
     estado: this.estado(),
+    tag: this.tag(),
   }));
+  tags = this.service.tagsResource();
 
   openForm(problem?: Problem) {
     this.dialog
@@ -126,12 +143,14 @@ export class ProblemsPage {
           next: () => {
             this.snack.open(problem ? 'Problema actualizado' : 'Problema agregado', 'OK', { duration: 3000 });
             this.problems.reload();
+            this.tags.reload();
           },
           error: () => this.snack.open('Error al guardar', 'Cerrar', { duration: 4000 }),
         });
       });
   }
 
+  //Panel para solicitar confirmación antes de eliminar un problema
   remove(problem: Problem) {
     this.dialog
       .open(ConfirmDialog, { data: `¿Eliminar "${problem.titulo}"?` })
@@ -142,6 +161,7 @@ export class ProblemsPage {
           next: () => {
             this.snack.open('Problema eliminado', 'OK', { duration: 3000 });
             this.problems.reload();
+            this.tags.reload();
           },
           error: () => this.snack.open('Error al eliminar', 'Cerrar', { duration: 4000 }),
         });

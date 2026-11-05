@@ -10,6 +10,7 @@ from app.services.security import get_current_user
 router = APIRouter(prefix="/problems", tags=["problems"])
 
 
+#Verifica que el problema exista y pertenezca al usuario autenticado
 def get_own_problem(db: Session, problem_id: int, user: User) -> Problem:
     problem = db.get(Problem, problem_id)
     if not problem or problem.user_id != user.id:
@@ -17,13 +18,14 @@ def get_own_problem(db: Session, problem_id: int, user: User) -> Problem:
     return problem
 
 
+#Lista los problemas del usuario con filtros opcionales por plataforma, estado y tag
 @router.get("", response_model=list[ProblemOut])
 def list_problems(
     plataforma: Optional[str] = None,
     estado: Optional[str] = None,
+    tag: Optional[str] = None,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
-    tag: Optional[str] = None,
 ):
     query = db.query(Problem).filter(Problem.user_id == user.id)
     if plataforma:
@@ -34,7 +36,8 @@ def list_problems(
         query = query.filter(Problem.tag == tag)
     return query.order_by(Problem.id.desc()).all()
 
-#EndPoint para los tags
+
+#Obtiene los tags únicos registrados por el usuario autenticado
 @router.get("/tags", response_model=list[str])
 def list_user_tags(
     db: Session = Depends(get_db),

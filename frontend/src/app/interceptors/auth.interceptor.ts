@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
+// Interceptor HTTP que adjunta el token JWT en cada petición y cierra sesión ante un 401
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const token = auth.token();
