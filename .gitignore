@@ -1,7 +1,18 @@
+#Variables de Entorno
 .env
+.env.*
+!.env.example
+
+#Entornos virutales de Python
 venv/
 env/
+.venv/
+
+#Cache y archivos generados por Python
 __pycache__/
+*.py[cod]
+
+#Dependencias y compilación del fronted
 node_modules/
 dist/
 .angular/

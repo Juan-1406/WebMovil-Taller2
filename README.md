@@ -158,15 +158,40 @@ pip install -r requirements.txt
 En Linux/Mac, la activación es `source venv/bin/activate`.
 
 
+### Variables de entorno
 
-\### Variables de entorno
+El backend utiliza variables de entorno para configurar la conexión a PostgreSQL y la autenticación JWT.
 
+1. Crea la base de datos `tracker` en PostgreSQL antes de iniciar el backend.
+2. Desde la carpeta `backend`, copia el archivo de ejemplo:
 
+    -  En PowerShell utiliza `Copy-Item .env.example .env`.
 
-Crea el archivo `.env` dentro de backend (junto a `requirements.txt`)
-con este contenido:
+    - En Linux/macOS utiliza `cp .env.example .env`.
 
+3. Abre el archivo `.env` y configura los siguientes valores:
 
+```dotenv
+DATABASE_URL=postgresql+psycopg2://postgres:TU_PASSWORD@localhost:5432/tracker
+JWT_SECRET=TU_SECRETO_ALEATORIO
+JWT_EXPIRE_MINUTES=60
+```
+
+- `DATABASE_URL`: dirección de conexión a la base de datos PostgreSQL.
+- `JWT_SECRET`: secreto utilizado para firmar y verificar tokens JWT.
+- `JWT_EXPIRE_MINUTES`: duración del token en minutos.
+
+4. Genera el secreto JWT mediante:
+
+```powershell
+py -c "import secrets; print(secrets.token_hex(32))"
+```
+
+Copia el resultado en `JWT_SECRET`.
+
+5. Reemplaza `TU_PASSWORD` por la contraseña local de PostgreSQL. Si contiene caracteres especiales, codifícalos para utilizarlos en la URL.
+
+**Seguridad:** Nunca subas `.env` a GitHub. El repositorio únicamente incluye `.env.example`, sin contraseñas ni secretos reales.
 
 ```
 
