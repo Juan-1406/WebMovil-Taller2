@@ -23,14 +23,30 @@ def list_problems(
     estado: Optional[str] = None,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
+    tag: Optional[str] = None,
 ):
     query = db.query(Problem).filter(Problem.user_id == user.id)
     if plataforma:
         query = query.filter(Problem.plataforma == plataforma)
     if estado:
         query = query.filter(Problem.estado == estado)
+    if tag:
+        query = query.filter(Problem.tag == tag)
     return query.order_by(Problem.id.desc()).all()
 
+#EndPoint para los tags
+@router.get("/tags", response_model=list[str])
+def list_user_tags(
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    rows = (
+        db.query(Problem.tag)
+        .filter(Problem.user_id == user.id, Problem.tag.isnot(None), Problem.tag != "")
+        .distinct()
+        .all()
+    )
+    return [r[0] for r in rows]
 
 @router.get("/{problem_id}", response_model=ProblemOut)
 def get_problem(

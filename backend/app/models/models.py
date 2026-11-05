@@ -27,5 +27,6 @@ class Problem(Base):
     estado: Mapped[str] = mapped_column(String(20), default="Pendiente")
     url: Mapped[Optional[str]] = mapped_column(String(300), nullable=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    tag: Mapped[Optional[str]] = mapped_column(String(50), index=True, nullable=True)
 
     owner: Mapped["User"] = relationship(back_populates="problems")

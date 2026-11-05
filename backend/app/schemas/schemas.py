@@ -27,6 +27,7 @@ class ProblemBase(BaseModel):
     dificultad: Optional[int] = Field(default=None, ge=0, le=4000)
     estado: Estado = "Pendiente"
     url: Optional[str] = Field(default=None, max_length=300)
+    tag: Optional[str] = Field(default=None, max_length=50)
 
 
 class ProblemCreate(ProblemBase):
