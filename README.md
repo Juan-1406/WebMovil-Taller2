@@ -1,175 +1,148 @@
-# Taller 02 - Int. al Desarrollo Web/Móvil
+# ICPC Tracker
+
+**Taller 02 — Introducción al Desarrollo Web/Móvil**
+
+ICPC Tracker es una aplicación web *full stack* para llevar un registro personal de problemas de programación competitiva de plataformas como Codeforces, LeetCode y CSES. Permite organizar los problemas registrados, consultar su estado y visualizar un resumen del progreso.
+
+El proyecto separa el frontend desarrollado con Angular del backend construido con FastAPI. Ambos se comunican mediante una API REST, mientras que PostgreSQL almacena la información de forma persistente.
 
 ## Integrantes
 
-* Juan Alvarado
-* Harold Ramos
-* Cristian Pérez
-* Gabriel Astudillo
+- Juan Alvarado
+- Harold Ramos
+- Cristian Pérez
+- Gabriel Astudillo
 
+## Funcionalidades
 
+- Registro e inicio de sesión de usuarios mediante autenticación JWT.
+- Gestión de problemas: crear, consultar, editar y eliminar registros.
+- Filtrado de problemas por plataforma y estado.
+- Visualización de estadísticas sobre los problemas registrados.
+- Acceso a funcionalidades protegidas mediante autenticación.
 
-Aplicación web full stack: \*\*ICPC Tracker\*\*, un registro personal de problemas de programación competitiva (Codeforces, LeetCode, CSES, etc.).
+## Tecnologías
 
+| Capa | Tecnologías |
+| --- | --- |
+| Frontend | Angular, Angular Material, TypeScript |
+| Backend | Python, FastAPI |
+| Base de datos | PostgreSQL |
+| Persistencia | SQLAlchemy (ORM) |
+| Autenticación | JWT y bcrypt para el hash de contraseñas |
 
+## Estructura del proyecto
 
-\## Tecnologías
-
-\- \*\*Frontend:\*\* Angular + Angular Material
-
-\- \*\*Backend:\*\* FastAPI (Python)
-
-\- \*\*Base de datos:\*\* PostgreSQL con SQLAlchemy (ORM)
-
-\- \*\*Autenticación:\*\* JWT, contraseñas con bcrypt
-
-
-
-\## Requisitos previos
-
-
-
-| Herramienta | Versión mínima | Instalación | Comprobar |
-
-|---|---|---|---|
-
-| Git | cualquiera reciente | https://git-scm.com | `git --version` |
-
-| Python | 3.10 (recomendada) | https://www.python.org/downloads | `python --version` |
-
-| PostgreSQL | 14 (recomendada) | https://www.postgresql.org/download | `psql --version` |
-
-| Node.js | 22.12 | https://nodejs.org (versión LTS) | `node --version` |
-
-| Angular CLI | 22 | `npm install -g @angular/cli` | `ng version` |
-
-
-
-Notas:
-
-\- Al instalar PostgreSQL se pide una contraseña para el usuario `postgres`. Anótala: se usa en el `.env`.
-
-\- Si `psql` no se reconoce en la terminal, usa "SQL Shell (psql)" desde el buscador de Windows.
-
-
-
-\## Estructura del proyecto
-
-
-
-```
-
+```text
 WebMovil-Taller2/
-
 ├── backend/
-
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── database/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   └── routers/
 │   ├── requirements.txt
-
-│   ├── .env                  (local, NO se sube al repo)
-
-│   └── app/
-
-│       ├── main.py
-
-│       ├── database/
-
-│       ├── models/
-
-│       ├── schemas/
-
-│       ├── services/
-
-│       └── routers/
-
+│   └── .env.example
 ├── frontend/
-
-│   └── src/app/
-
-│       ├── components/
-
-│       ├── pages/
-
-│       ├── services/
-
-│       ├── guards/
-
-│       ├── interceptors/
-
-│       └── models/
-
+│   └── src/
+│       └── app/
+│           ├── components/
+│           ├── pages/
+│           ├── services/
+│           ├── guards/
+│           ├── interceptors/
+│           └── models/
 └── README.md
-
 ```
 
+El archivo `backend/.env` contiene la configuración local y no debe incluirse en el repositorio.
 
+## Requisitos previos
 
-\## 1. Base de datos
+Antes de ejecutar el proyecto, instala las siguientes herramientas:
 
+- [Git](https://git-scm.com/).
+- [Python](https://www.python.org/downloads/) 3.10 o superior.
+- [PostgreSQL](https://www.postgresql.org/download/) 14 o superior.
+- [Node.js](https://nodejs.org/) 22.12 o una versión compatible con el Angular del proyecto (incluye npm).
 
+No es necesario instalar Angular CLI de forma global: se puede ejecutar la versión del proyecto mediante `npx`.
 
-1\. Abre \*\*SQL Shell (psql)\*\* y presiona Enter cuando te pregunten: `Server`, `Database`, `Port` y `Username` para dejar los valores por defecto.
+## Instalación y ejecución
 
-2\. Escribe tu contraseña de PostgreSQL (no se ve al escribir).
+### 1. Obtener el proyecto
 
-3\. Crea la base de datos:
+Reemplaza `URL_DEL_REPOSITORIO` por la dirección de GitHub y clona el proyecto:
 
+```bash
+git clone URL_DEL_REPOSITORIO
+cd WebMovil-Taller2
+```
 
+Si ya tienes el proyecto descargado, abre una terminal en su directorio raíz y continúa con el siguiente paso.
+
+### 2. Configurar la base de datos
+
+Asegúrate de que PostgreSQL esté en ejecución. Abre **SQL Shell (psql)** o conéctate mediante:
+
+```bash
+psql -U postgres
+```
+
+Crea la base de datos:
 
 ```sql
-
 CREATE DATABASE tracker;
-
 ```
 
+Las tablas `users` y `problems` se crean automáticamente al iniciar el backend, según la configuración descrita para el proyecto.
 
+### 3. Configurar y ejecutar el backend
 
-4\. Comprueba que existe con `\\\\l` (debe aparecer `tracker`).
+Desde la raíz del proyecto:
 
-
-
-Las tablas (`users` y `problems`) se crean automáticamente al iniciar el backend.
-
-
-
-Para revisar los datos guardados: para entrar a la base de datos "\\c tracker" y luego "SELECT \* FROM problems;" para ver los problemas creados
-
-
-
-\## 2. Backend
-
-
-
-Desde la raíz del repo:
-
-
-
-bash
-
+```bash
 cd backend
-
 python -m venv venv
+```
 
-venv\\Scripts\\activate
+Activa el entorno virtual según tu sistema operativo:
 
-pip install -r requirements.txt
+**Windows (PowerShell):**
 
+```powershell
+venv\Scripts\Activate.ps1
+```
 
+**Linux/macOS:**
 
-En Linux/Mac, la activación es `source venv/bin/activate`.
+```bash
+source venv/bin/activate
+```
 
+Instala las dependencias:
 
-### Variables de entorno
+```bash
+python -m pip install -r requirements.txt
+```
 
-El backend utiliza variables de entorno para configurar la conexión a PostgreSQL y la autenticación JWT.
+Copia el archivo de ejemplo para crear `backend/.env`:
 
-1. Crea la base de datos `tracker` en PostgreSQL antes de iniciar el backend.
-2. Desde la carpeta `backend`, copia el archivo de ejemplo:
+**Windows (PowerShell):**
 
-    -  En PowerShell utiliza `Copy-Item .env.example .env`.
+```powershell
+Copy-Item .env.example .env
+```
 
-    - En Linux/macOS utiliza `cp .env.example .env`.
+**Linux/macOS:**
 
-3. Abre el archivo `.env` y configura los siguientes valores:
+```bash
+cp .env.example .env
+```
+
+Configura las variables de entorno en el archivo `.env`:
 
 ```dotenv
 DATABASE_URL=postgresql+psycopg2://postgres:TU_PASSWORD@localhost:5432/tracker
@@ -177,173 +150,71 @@ JWT_SECRET=TU_SECRETO_ALEATORIO
 JWT_EXPIRE_MINUTES=60
 ```
 
-- `DATABASE_URL`: dirección de conexión a la base de datos PostgreSQL.
-- `JWT_SECRET`: secreto utilizado para firmar y verificar tokens JWT.
-- `JWT_EXPIRE_MINUTES`: duración del token en minutos.
+- `DATABASE_URL`: conexión a PostgreSQL. Reemplaza `TU_PASSWORD` por tu contraseña local; si contiene caracteres especiales, codifícalos para usarlos en una URL.
+- `JWT_SECRET`: clave secreta utilizada para firmar los tokens JWT. Genera una clave aleatoria con el siguiente comando:
 
-4. Genera el secreto JWT mediante:
+  ```bash
+  python -c "import secrets; print(secrets.token_hex(32))"
+  ```
 
-```powershell
-py -c "import secrets; print(secrets.token_hex(32))"
-```
+- `JWT_EXPIRE_MINUTES`: tiempo de vigencia del token, expresado en minutos.
 
-Copia el resultado en `JWT_SECRET`.
-
-5. Reemplaza `TU_PASSWORD` por la contraseña local de PostgreSQL. Si contiene caracteres especiales, codifícalos para utilizarlos en la URL.
-
-**Seguridad:** Nunca subas `.env` a GitHub. El repositorio únicamente incluye `.env.example`, sin contraseñas ni secretos reales.
-
-```
-
-DATABASE\\\_URL=postgresql+psycopg2://postgres:(TU\\\_CLAVE)@localhost:5432/tracker
-
-JWT\\\_SECRET=PEGA\\\_AQUI\\\_UN\\\_SECRETO\\\_ALEATORIO(64 caracteres aleatorios hexadecimal)
-
-JWT\\\_EXPIRE\\\_MINUTES=60
-
-```
-
-
-
-\- Reemplaza (TU\_CLAVE) por la contraseña de PostgreSQL (sin parentesis ni espacios).
-
-\- Genera el secreto con:
-
-
+Inicia el servidor desde la carpeta `backend`:
 
 ```bash
-
-python -c "import secrets; print(secrets.token\\\_hex(32))"
-
-```
-
-
-
-El archivo `.env` no debe subirse nunca al repositorio.
-
-
-
-\### Ejecutar
-
-
-
-```bash
-
 uvicorn app.main:app --reload
-
 ```
 
+El backend estará disponible en:
 
+- **API:** http://localhost:8000
+- **Documentación interactiva (Swagger UI):** http://localhost:8000/docs
 
-\- API: http://localhost:8000
+### 4. Configurar y ejecutar el frontend
 
-\- Documentación interactiva: http://localhost:8000/docs
-
-
-
-\### Librerías del backend (`requirements.txt`)
-
-
-
-| Librería | Uso |
-
-|---|---|
-
-| fastapi | Framework de la API REST |
-
-| uvicorn\[standard] | Servidor para ejecutar FastAPI |
-
-| sqlalchemy | ORM para acceder a la base de datos |
-
-| psycopg2-binary | Driver de PostgreSQL |
-
-| pydantic\[email] | Validación de datos y emails |
-
-| python-dotenv | Lectura del archivo `.env` |
-
-| bcrypt | Hash seguro de contraseñas |
-
-| PyJWT | Creación y validación de tokens JWT |
-
-
-
-\## 3. Frontend
-
-
-
-En \*\*otra terminal\*\*, desde la raíz del repo:
-
-
+Abre **otra terminal** y, desde la raíz del proyecto, ejecuta:
 
 ```bash
-
 cd frontend
-
 npm install
-
-ng serve
-
+npx ng serve
 ```
 
+Abre la aplicación en **http://localhost:4200**. Para utilizarla, mantén en ejecución tanto el frontend como el backend.
 
+## Uso de la aplicación
 
-La aplicación queda disponible en http://localhost:4200
+1. Ingresa a `http://localhost:4200` y registra una cuenta.
+2. Inicia sesión con tus credenciales.
+3. En la sección **Problemas**, agrega, consulta, edita o elimina registros. También puedes filtrarlos por plataforma y estado.
+4. En **Estadísticas**, consulta el resumen de tus problemas registrados.
 
+## API REST
 
+Los siguientes son los endpoints principales descritos para el backend:
 
+| Método | Endpoint | Descripción | Autenticación |
+| --- | --- | --- | --- |
+| `POST` | `/auth/register` | Registrar un usuario | No |
+| `POST` | `/auth/login` | Iniciar sesión y obtener un JWT | No |
+| `GET` | `/problems` | Listar problemas y aplicar filtros | Sí |
+| `GET` | `/problems/{id}` | Consultar un problema | Sí |
+| `POST` | `/problems` | Registrar un problema | Sí |
+| `PUT` | `/problems/{id}` | Actualizar un problema | Sí |
+| `DELETE` | `/problems/{id}` | Eliminar un problema | Sí |
 
+Puedes explorar la documentación y probar las operaciones desde **http://localhost:8000/docs** con el backend en ejecución.
 
-\## 4. Uso
+## Problemas frecuentes
 
+| Problema | Qué revisar |
+| --- | --- |
+| `password authentication failed` | Comprueba el usuario y la contraseña de `DATABASE_URL`. |
+| `database "tracker" does not exist` | Crea la base de datos indicada en el paso 2. |
+| `psql` no se reconoce | Abre SQL Shell (psql) o agrega PostgreSQL al `PATH`. |
+| `ng` no se reconoce | Ejecuta `npm install` en `frontend` y utiliza `npx ng serve`. |
+| Error de CORS o conexión a la API | Comprueba que FastAPI esté en el puerto 8000 y que la configuración de comunicación con Angular sea correcta. |
 
+## Seguridad
 
-1\. Mantén el backend (puerto 8000) y el frontend (puerto 4200) corriendo al mismo tiempo.
-
-2\. Entra a http://localhost:4200 y crea una cuenta en \*\*Registro\*\*.
-
-3\. En \*\*Problemas\*\* puedes agregar, editar, eliminar y filtrar por plataforma y estado.
-
-4\. En \*\*Estadísticas\*\* se ve el resumen de tus problemas.
-
-
-
-\## Endpoints principales
-
-
-
-| Método | Ruta | Descripción | Requiere token |
-
-|---|---|---|---|
-
-| POST | `/auth/register` | Registrar usuario | No |
-
-| POST | `/auth/login` | Iniciar sesión (devuelve JWT) | No |
-
-| GET | `/problems` | Listar problemas (filtros: `plataforma`, `estado`) | Sí |
-
-| GET | `/problems/{id}` | Obtener un problema | Sí |
-
-| POST | `/problems` | Crear problema | Sí |
-
-| PUT | `/problems/{id}` | Modificar problema | Sí |
-
-| DELETE | `/problems/{id}` | Eliminar problema | Sí |
-
-
-
-\## Solución de problemas
-
-
-
-| Error | Causa probable |
-
-|---|---|
-
-| `password authentication failed` | La clave en `DATABASE\\\_URL` está mal |
-
-| `database "tracker" does not exist` | Falta crear la base de datos (sección 1) |
-
-| `'ng' no se reconoce` | Falta instalar Angular CLI |
-
-| Error de CORS en el navegador | El backend no está corriendo o el frontend no usa el puerto 4200 |
-
+No subas al repositorio archivos `.env`, contraseñas reales, secretos JWT ni otras credenciales. Para compartir la configuración necesaria, utiliza únicamente `backend/.env.example` con valores de ejemplo.
