@@ -17,68 +17,108 @@ import { AuthService } from '../services/auth.service';
     MatInputModule, MatButtonModule, MatProgressSpinnerModule,
   ],
   template: `
-    <div class="wrap">
-      <mat-card class="card">
-        <mat-card-header>
-          <mat-card-title>{{ isRegister ? 'Crear cuenta' : 'Iniciar sesión' }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="form" (ngSubmit)="submit()" class="form">
-            <mat-form-field appearance="outline">
-              <mat-label>Usuario</mat-label>
-              <input matInput formControlName="username" />
-              @if (form.controls.username.hasError('required')) {
-                <mat-error>El usuario es obligatorio</mat-error>
-              } @else if (form.controls.username.hasError('minlength')) {
-                <mat-error>Mínimo 3 caracteres</mat-error>
-              }
-            </mat-form-field>
+    <section class="auth-layout">
+      <aside class="welcome-panel" aria-label="Acerca de ICPC Tracker">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+          <span>ICPC <strong>Tracker</strong></span>
+        </div>
 
-            @if (isRegister) {
+        <div class="welcome-copy">
+          <p class="eyebrow">TU ESPACIO DE ENTRENAMIENTO</p>
+          <h2>Cada problema es un paso adelante.</h2>
+          <p>
+            Organiza tus desafíos, practica algoritmos y sigue tu progreso
+            en programación competitiva.
+          </p>
+        </div>
+
+        <ul class="features">
+          <li><span class="feature-dot" aria-hidden="true"></span>Registra problemas y su estado</li>
+          <li><span class="feature-dot" aria-hidden="true"></span>Organiza tus ejercicios por etiquetas</li>
+          <li><span class="feature-dot" aria-hidden="true"></span>Visualiza tus estadísticas de entrenamiento</li>
+        </ul>
+
+        <p class="welcome-footer">Codeforces · LeetCode · CSES</p>
+      </aside>
+
+      <div class="form-panel">
+        <mat-card class="card">
+          <mat-card-content>
+            <div class="form-heading">
+              <p class="form-eyebrow">ICPC TRACKER</p>
+              <h1>{{ isRegister ? 'Crea tu cuenta' : 'Bienvenido Nuevamente' }}</h1>
+              <p>
+                {{ isRegister
+                  ? 'Regístrate para comenzar a organizar tu entrenamiento.'
+                  : 'Inicia sesión para continuar con tu entrenamiento.' }}
+              </p>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()" class="form">
               <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email" />
-                @if (form.controls.email.hasError('required')) {
-                  <mat-error>El email es obligatorio</mat-error>
-                } @else if (form.controls.email.hasError('email')) {
-                  <mat-error>Email inválido</mat-error>
+                <mat-label>Usuario</mat-label>
+                <input matInput formControlName="username" autocomplete="username" />
+                @if (form.controls.username.hasError('required')) {
+                  <mat-error>El usuario es obligatorio</mat-error>
+                } @else if (form.controls.username.hasError('minlength')) {
+                  <mat-error>Mínimo 3 caracteres</mat-error>
                 }
               </mat-form-field>
-            }
 
-            <mat-form-field appearance="outline">
-              <mat-label>Contraseña</mat-label>
-              <input matInput type="password" formControlName="password" />
-              @if (form.controls.password.hasError('required')) {
-                <mat-error>La contraseña es obligatoria</mat-error>
-              } @else if (form.controls.password.hasError('minlength')) {
-                <mat-error>Mínimo 6 caracteres</mat-error>
+              @if (isRegister) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" formControlName="email" autocomplete="email" />
+                  @if (form.controls.email.hasError('required')) {
+                    <mat-error>El email es obligatorio</mat-error>
+                  } @else if (form.controls.email.hasError('email')) {
+                    <mat-error>Email inválido</mat-error>
+                  }
+                </mat-form-field>
               }
-            </mat-form-field>
 
-            <button mat-flat-button type="submit" [disabled]="loading()">
-              @if (loading()) { <mat-spinner diameter="20" /> } @else {
-                {{ isRegister ? 'Registrarme' : 'Entrar' }}
+              <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  formControlName="password"
+                  [attr.autocomplete]="isRegister ? 'new-password' : 'current-password'"
+                />
+                @if (form.controls.password.hasError('required')) {
+                  <mat-error>La contraseña es obligatoria</mat-error>
+                } @else if (form.controls.password.hasError('minlength')) {
+                  <mat-error>Mínimo 6 caracteres</mat-error>
+                }
+              </mat-form-field>
+
+              <button mat-flat-button class="submit-btn" type="submit" [disabled]="loading()">
+                @if (loading()) {
+                  <mat-spinner diameter="20" aria-label="Procesando" />
+                } @else {
+                  {{ isRegister ? 'Crear cuenta' : 'Iniciar sesión' }}
+                }
+              </button>
+            </form>
+
+            <p class="switch-auth">
+              @if (isRegister) {
+                ¿Ya tienes una cuenta?
+                <a routerLink="/login">Inicia sesión</a>
+              } @else {
+                ¿Aún no tienes cuenta?
+                <a routerLink="/registro">Regístrate</a>
               }
-            </button>
-          </form>
-        </mat-card-content>
-        <mat-card-actions>
-          @if (isRegister) {
-            <a mat-button routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
-          } @else {
-            <a mat-button routerLink="/registro">¿No tienes cuenta? Regístrate</a>
-          }
-        </mat-card-actions>
-      </mat-card>
-    </div>
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </section>
   `,
-  styles: `
-    .wrap { display: flex; justify-content: center; padding: 24px 12px; }
-    .card { width: 100%; max-width: 400px; padding: 8px; }
-    .form { display: flex; flex-direction: column; gap: 4px; padding-top: 16px; }
-  `,
+  styleUrl: './auth-page.css',
 })
+
 export class AuthPage {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
