@@ -1,32 +1,34 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, MatToolbarModule, MatButtonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule],
   template: `
-    <mat-toolbar>
-      <span>ICPC Tracker</span>
+    <mat-toolbar class="site-header">
+      <a class="site-brand" routerLink="/" aria-label="ICPC Tracker, inicio">
+        <span class="site-brand-mark" aria-hidden="true">&lt;/&gt;</span>
+        <span>ICPC <strong>Tracker</strong></span>
+      </a>
       <span class="spacer"></span>
-      @if (auth.isLoggedIn()) {
-        <a mat-button routerLink="/problemas">Problemas</a>
-        <a mat-button routerLink="/estadisticas">Estadísticas</a>
-        <span class="user">{{ auth.username() }}</span>
-        <button mat-button (click)="auth.logout()">Salir</button>
-      } @else {
-        <a mat-button routerLink="/login">Entrar</a>
-        <a mat-button routerLink="/registro">Registro</a>
-      }
+      <nav class="site-nav" aria-label="Navegación principal">
+        @if (auth.isLoggedIn()) {
+          <a class="nav-link" routerLink="/problemas" routerLinkActive="active" ariaCurrentWhenActive="page">Problemas</a>
+          <a class="nav-link" routerLink="/estadisticas" routerLinkActive="active" ariaCurrentWhenActive="page">Estadísticas</a>
+          <span class="user">{{ auth.username() }}</span>
+          <button class="logout-link" type="button" (click)="auth.logout()">Salir</button>
+        } @else {
+          <a class="nav-link" routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Entrar</a>
+          <a class="nav-link" routerLink="/registro" routerLinkActive="active" ariaCurrentWhenActive="page">Registro</a>
+        }
+      </nav>
     </mat-toolbar>
     <router-outlet />
   `,
-  styles: `
-    .spacer { flex: 1; }
-    .user { margin: 0 8px; font-size: 14px; }
-  `,
+  styleUrl: './app.css',
 })
 export class App {
   auth = inject(AuthService);

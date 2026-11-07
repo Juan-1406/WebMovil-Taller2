@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 780" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#1CE1FF" stop-opacity=".7"/><stop offset="1" stop-color="#1CE1FF" stop-opacity="0"/></radialGradient>
+    <radialGradient id="node"><stop stop-color="#80F4FF"/><stop offset="1" stop-color="#02B7F6"/></radialGradient>
+  </defs>
+  <g fill="none" stroke="#068CE8" stroke-opacity=".5" stroke-width="1.15">
+    <path d="M350 770 481 708 640 736 790 604 720 456 830 340 735 184 680 36"/>
+    <path d="M481 708 354 672 230 738M640 736 660 600 790 604 860 672M660 600 720 456 550 416 555 258 735 184M550 416 415 336 555 258 480 184 680 36 860 95"/>
+    <path d="M735 184 860 239M555 258 830 340 860 431M720 456 860 505M350 770 354 672 415 336M660 600 550 416"/>
+  </g>
+  <g fill="#3CBFFF" opacity=".62">
+    <circle cx="481" cy="708" r="8"/><circle cx="640" cy="736" r="8"/><circle cx="354" cy="672" r="7"/><circle cx="790" cy="604" r="7"/>
+    <circle cx="550" cy="416" r="7"/><circle cx="415" cy="336" r="7"/><circle cx="555" cy="258" r="7"/><circle cx="735" cy="184" r="7"/>
+  </g>
+  <g>
+    <circle cx="660" cy="600" r="48" fill="url(#glow)"/><circle cx="660" cy="600" r="8" fill="url(#node)"/>
+    <circle cx="720" cy="456" r="42" fill="url(#glow)"/><circle cx="720" cy="456" r="8" fill="url(#node)"/>
+    <circle cx="680" cy="36" r="40" fill="url(#glow)"/><circle cx="680" cy="36" r="7" fill="url(#node)"/>
+    <circle cx="640" cy="736" r="35" fill="url(#glow)"/><circle cx="640" cy="736" r="7" fill="url(#node)"/>
+  </g>
+</svg>
