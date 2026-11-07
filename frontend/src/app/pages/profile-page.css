@@ -1,0 +1,248 @@
+.gh-container {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 36px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Columna izquierda / Sidebar */
+.gh-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.gh-avatar {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0b3b60, #075df0);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 96px;
+  font-weight: 700;
+  border: 1px solid #d0d7de;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 16px;
+}
+
+.gh-fullname {
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0;
+}
+
+.gh-username {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 24px;
+  color: #656d76;
+  margin: 0 0 12px 0;
+}
+
+.gh-bio {
+  font-size: 14px;
+  color: #1f2328;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.btn-logout {
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  color: #cf222e !important;
+  border-color: #d0d7de !important;
+}
+
+.btn-logout:hover {
+  background-color: #ffebe9 !important;
+}
+
+.gh-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid #d0d7de;
+  padding-top: 16px;
+  font-size: 14px;
+  color: #1f2328;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #656d76;
+}
+
+/* Columna derecha / Contenido */
+.gh-content {
+  min-width: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d0d7de;
+}
+
+.section-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0;
+}
+
+.count-badge {
+  background-color: #afb8c133;
+  color: #1f2328;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Grid de tarjetas tipo repo */
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.repo-card {
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.repo-card:hover {
+  border-color: #0969da;
+}
+
+.repo-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.repo-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0969da;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  word-break: break-word;
+}
+
+.repo-title:hover {
+  text-decoration: underline;
+}
+
+.icon-link {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #656d76;
+}
+
+.status-pill {
+  font-size: 11px;
+  font-weight: 500;
+  color: #1a7f37;
+  border: 1px solid #2da44e59;
+  border-radius: 12px;
+  padding: 1px 7px;
+  background: #dafbe1;
+  white-space: nowrap;
+}
+
+.repo-desc {
+  font-size: 13px;
+  color: #656d76;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.repo-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #656d76;
+  margin-top: auto;
+}
+
+.lang-tag {
+  background-color: #ddf4ff;
+  color: #0969da;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.view-link {
+  color: #0969da;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.view-link:hover {
+  text-decoration: underline;
+}
+
+.empty-state {
+  padding: 40px;
+  text-align: center;
+  border: 1px dashed #d0d7de;
+  border-radius: 6px;
+  color: #656d76;
+}
+
+.empty-state mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+  color: #8c959f;
+}
+
+@media (max-width: 768px) {
+  .gh-container {
+    grid-template-columns: 1fr;
+  }
+  .gh-avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 48px;
+  }
+  .repo-grid {
+    grid-template-columns: 1fr;
+  }
+}

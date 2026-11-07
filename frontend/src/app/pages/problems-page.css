@@ -1,0 +1,208 @@
+/* Layout principal */
+.page-grid {
+  display: grid;
+  /* Columna 1: Filtros (260px), Columna 2: Tabla (fluido), Columna 3: Espacio vacío derecha (15vw) */
+  grid-template-columns: 260px minmax(400px, 1fr) 15vw;
+  grid-template-rows: auto 1fr;
+  gap: 32px;
+  padding: 32px 48px; /* Ajusta el 48px si lo quieres aún más pegado al borde */
+  max-width: 100%; /* Permite que se expanda a toda la pantalla */
+}
+
+/* Título */
+.page-title {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  margin: 0;
+  align-self: center;
+  font-size: 24px;
+}
+
+/* Botón Agregar */
+.page-actions {
+  grid-column: 3 / 4;
+  grid-row: 1;
+  justify-self: end;
+  align-self: center;
+}
+
+/* Contenedor de filtros */
+.sidebar-filters {
+  grid-column: 1 / 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Estilos de cada sección de filtro */
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800; /* Texto en negrita como en la foto */
+  color: #1a1f36;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Ajuste del checkbox para que coincida con la imagen */
+::ng-deep .filter-options .mdc-form-field {
+  font-size: 14px !important;
+  color: #3b4252 !important;
+}
+
+::ng-deep .filter-options .mdc-checkbox {
+  padding-left: 0 !important; /* Alinea la caja a la izquierda */
+}
+
+/* Botón amarillo estilo "Aplicar" de la imagen */
+.btn-yellow {
+  background-color: #fce35a;
+  color: #1a1f36;
+  font-weight: 700;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn-yellow:hover {
+  background-color: #f7d620;
+}
+
+/* Tabla central */
+.main-content {
+  grid-column: 2 / 3;
+  grid-row: 2;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  background: white;
+}
+
+table {
+  width: 100%;
+}
+
+.actions-cell {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.right-sidebar {
+  grid-column: 3 / 4;
+  grid-row: 2;
+  min-width: 250px; 
+}
+
+/* Tarjeta del widget */
+.timeline-widget {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+}
+
+.timeline-header {
+  font-size: 14px;
+  font-weight: 800;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #1a1f36;
+}
+
+/* Contenedor principal de la línea */
+.timeline {
+  position: relative;
+  padding-left: 12px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  background-color: #075de1;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+
+.timeline-dot {
+  position: absolute;
+  left: -13.5px; 
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #075de1; 
+  border: 2px solid #075de1; 
+}
+
+
+.timeline-content {
+  padding-left: 12px;
+}
+
+.timeline-time {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.timeline-text {
+  margin: 0;
+  font-size: 13px;
+  color: #1a1f36;
+  line-height: 1.4;
+}
+
+.timeline-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.timeline-link:hover {
+  color: #0969da; 
+}
