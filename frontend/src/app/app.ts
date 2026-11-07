@@ -6,6 +6,7 @@ import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule],
   template: `
     <mat-toolbar class="site-header">
@@ -18,7 +19,7 @@ import { AuthService } from './services/auth.service';
         @if (auth.isLoggedIn()) {
           <a class="nav-link" routerLink="/problemas" routerLinkActive="active" ariaCurrentWhenActive="page">Problemas</a>
           <a class="nav-link" routerLink="/estadisticas" routerLinkActive="active" ariaCurrentWhenActive="page">Estadísticas</a>
-          <span class="user">{{ auth.username() }}</span>
+          <a class="nav-link" [routerLink]="['/perfil']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ auth.username() }}</a>
           <button class="logout-link" type="button" (click)="auth.logout()">Salir</button>
         } @else {
           <a class="nav-link" routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Entrar</a>
