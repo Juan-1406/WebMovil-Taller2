@@ -57,8 +57,6 @@ WebMovil-Taller2/
 └── README.md
 ```
 
-El archivo `backend/.env` contiene la configuración local y no debe incluirse en el repositorio.
-
 ## Requisitos previos
 
 Antes de ejecutar el proyecto, instala las siguientes herramientas:
@@ -97,7 +95,7 @@ Crea la base de datos:
 CREATE DATABASE tracker;
 ```
 
-Las tablas `users` y `problems` se crean automáticamente al iniciar el backend, según la configuración descrita para el proyecto.
+Las tablas `users` y `problems` se crean automáticamente al iniciar el backend.
 
 ### 3. Configurar y ejecutar el backend
 
@@ -165,11 +163,6 @@ Inicia el servidor desde la carpeta `backend`:
 uvicorn app.main:app --reload
 ```
 
-El backend estará disponible en:
-
-- **API:** http://localhost:8000
-- **Documentación interactiva (Swagger UI):** http://localhost:8000/docs
-
 ### 4. Configurar y ejecutar el frontend
 
 Abre **otra terminal** y, desde la raíz del proyecto, ejecuta:
@@ -186,8 +179,8 @@ Abre la aplicación en **http://localhost:4200**. Para utilizarla, mantén en ej
 
 1. Ingresa a `http://localhost:4200` y registra una cuenta.
 2. Inicia sesión con tus credenciales.
-3. En la sección **Problemas**, agrega, consulta, edita o elimina registros. También puedes filtrarlos por plataforma y estado.
-4. En **Estadísticas**, consulta el resumen de tus problemas registrados.
+3. En la sección **Problemas**: agrega, consulta, edita o elimina registros. También puedes filtrarlos por plataforma y estado.
+4. En **Estadísticas**: consulta el resumen de tus problemas registrados.
 
 ## API REST
 
@@ -203,8 +196,6 @@ Los siguientes son los endpoints principales descritos para el backend:
 | `PUT` | `/problems/{id}` | Actualizar un problema | Sí |
 | `DELETE` | `/problems/{id}` | Eliminar un problema | Sí |
 
-Puedes explorar la documentación y probar las operaciones desde **http://localhost:8000/docs** con el backend en ejecución.
-
 ## Problemas frecuentes
 
 | Problema | Qué revisar |
@@ -214,6 +205,7 @@ Puedes explorar la documentación y probar las operaciones desde **http://localh
 | `psql` no se reconoce | Abre SQL Shell (psql) o agrega PostgreSQL al `PATH`. |
 | `ng` no se reconoce | Ejecuta `npm install` en `frontend` y utiliza `npx ng serve`. |
 | Error de CORS o conexión a la API | Comprueba que FastAPI esté en el puerto 8000 y que la configuración de comunicación con Angular sea correcta. |
+| `La ejecución de scripts está deshabilitada en este sistema` | Ejecuta `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` y vuelve a activar el entorno con `.\venv\Scripts\Activate.ps1`. |
 
 ## Seguridad
 
